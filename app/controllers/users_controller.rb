@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end
     
   def show 
-    @microposts = @user.microposts
+    @microposts = @user.microposts.page(params[:page])
   end
   
   def new
