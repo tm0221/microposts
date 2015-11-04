@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :update, :show] 
+  before_action :set_user, only: [:edit, :update, :show, :followings, :followers] 
   
   def edit
   end
@@ -10,19 +10,29 @@ class UsersController < ApplicationController
     else 
       render 'edit'
     end
-    
   end
     
   def show 
-    @user = User.find(params[:id])
     @microposts = @user.microposts
   end
-
+  
   def new
     @user = User.new
   end
   
-   def create
+  def followings
+    @title = "Followings"
+    @users = @user.following_users
+    render 'show_follow'
+  end
+  
+  def followers
+    @title = "Followers"
+    @users = @user.follower_users
+    render 'show_follow'
+  end
+  
+  def create
     @user = User.new(user_params)
     if @user.save
       flash[:success] = "Welcome to the Sample App!"
@@ -31,12 +41,12 @@ class UsersController < ApplicationController
       render 'new'
     end
   end
-
+  
   private
 
   def user_params
     params.require(:user).permit(:name, :email, :password,
-                                 :password_confirmation, :profile, :location)
+                                 :password_confirmation, :profile, :location, :followed_id, :follower_id)
   end
   def set_user
     @user = User.find(params[:id])
