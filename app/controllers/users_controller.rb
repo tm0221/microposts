@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :update, :show, :followings, :followers] 
+  before_action :set_user, only: [:edit, :update, :show, :followings, :followers, :favorites] 
   
   def edit
   end
@@ -11,15 +11,27 @@ class UsersController < ApplicationController
       render 'edit'
     end
   end
-    
-  def show 
-    @microposts = @user.microposts.page(params[:page])
-  end
   
   def new
     @user = User.new
   end
   
+  def create
+    @user = User.new(user_params)
+    if @user.save
+      flash[:success] = "Welcome to the Sample App!"
+      redirect_to @user
+    else
+      render 'new'
+    end
+  end
+
+
+  def show 
+    @microposts = @user.microposts.page(params[:page])
+  end
+
+
   def followings
     @title = "Followings"
     @users = @user.following_users
@@ -32,15 +44,11 @@ class UsersController < ApplicationController
     render 'show_follow'
   end
   
-  def create
-    @user = User.new(user_params)
-    if @user.save
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
-    else
-      render 'new'
-    end
+  def favorites
+    @favorites = @user.favorites.page(params[:page])
+    render 'show_favorite'
   end
+  
   
   private
 

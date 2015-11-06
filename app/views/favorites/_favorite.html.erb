@@ -1,0 +1,20 @@
+<div class="microposts">
+  <li>
+  <%= link_to gravatar_for(favorite.micropost.user, size: 50), favorite.micropost.user %>
+  <span class="user"><%= link_to favorite.micropost.user.name, favorite.micropost.user %></span>
+  <span class="content"><%= favorite.micropost.content %></span>
+  <span class="timestamp">
+    Posted <%= time_ago_in_words(favorite.micropost.created_at) %> ago.
+  
+    <span id="favorite_form">
+      <% if favorite.micropost.favorited_by? current_user %>
+        <%= render 'users/unfavorite_link',micropost:favorite.micropost %>
+      <% else %>
+        <%= render 'users/favorite_link',micropost:favorite.micropost %>  
+      <% end %>
+    </span>
+  </span>
+  </li>
+</div>  
+ 
+
