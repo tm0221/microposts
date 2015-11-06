@@ -10,7 +10,7 @@
     <% else %>
       <span id="favorite_form">
         <% if micropost.favorited_by? current_user %>
-          <%= render 'users/unfavorite_link',micropost:micropost %>
+          <%= render 'users/unfavorite_link',micropost:micropost%>
         <% else %>
           <%= render 'users/favorite_link',micropost:micropost %>
         <% end %>
