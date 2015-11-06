@@ -8,4 +8,8 @@ class Micropost < ActiveRecord::Base
   def favorited_by? user     
     favorites.where(user_id: user.id).exists?
   end
+  
+  # for carrierwave
+  mount_uploader :image, ImageUploader
+  
 end
