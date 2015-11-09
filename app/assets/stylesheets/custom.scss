@@ -176,6 +176,19 @@ aside {
   }
 }
 
+.unlink_color {
+  color:#bule;
+}
+.link_color {
+  color:#aaa;
+}
+.link_underline{
+  a{text-decoration:none;}
+  a:active{text-decoration:none;}
+  a:visited{text-decoration:none;}
+  a:hover{text-decoration:none;}
+}
+
 aside {
   textarea {
     height: 100px;

@@ -3,19 +3,19 @@ class FavoritesController < ApplicationController
     
   def create
     @micropost = Micropost.find(params[:micropost_id])
-    @favorite = current_user.favorites.build(micropost: @micropost)
- 
+    @favorite = current_user.favorites.build(micropost: @micropost,micropost_id: @micropost.id)
+    
     if @favorite.save
-      #redirect_to root_url
-	  else
-	    redirect_to root_url, alert: "error"
-	  end
-	end
+      redirect_to :back 
+    else
+      redirect_to :back, alert: "error"
+    end
+  end
   
   def destroy
-    @favorite = current_user.favorites.find_by!(micropost_id: params[:micropost_id])
+    @favorite = current_user.favorites.find_by(micropost_id: params[:micropost_id])
     @favorite.destroy
-    #redirect_to root_url
+    redirect_to :back 
   end
 end
 

@@ -1,2 +1,3 @@
-$('#favorite_form').html("<%= escape_javascript(
-  render 'users/unfavorite_link',micropost:micropost) %>");
+$('#favorite_link').html("<%= escape_javascript(
+ render partial: 'users/favorite_form' , locals: {micropost: micropost} 
+ ) %>");

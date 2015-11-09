@@ -1,23 +1,53 @@
 <li id="micropost-<%= micropost.id %>">
   <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
   <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
-  <span class="content"><%= micropost.content %></span>
+  <span class="content"><%= micropost.content %></span> 
   <span class="timestamp">
     Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+    
+    
+    <% if Retweet.find_by(micropost_id: micropost.id) %> 
+      <% beforepost = Retweet.find_by(micropost_id: micropost.id) %>
+      <% micropsotbefore = Micropost.find_by(id: beforepost.before_id) %>
+      <%= link_to micropsotbefore.user.name,micropsotbefore.user %>
+    <% end %>
+      
     <% if current_user == micropost.user %>
-      <%= link_to "delete", micropost, method: :delete,
-                                     data: { confirm: "You sure?" } %>
+      <% if current_user.retweets.find_by(micropost_id: micropost.id) %>
+
+        <%= link_to micropost_retweets_path(micropost), method: :delete do%>
+          <i class="glyphicon glyphicon-retweet unlink_color" , aria-hidden="true" ></i>
+        <% end %>
+        
+      <% else %>
+       <%= link_to micropost, method: :delete,
+                                     data: { confirm: "You sure?" } do %>
+          <i class="glyphicon glyphicon-trash link_color" , aria-hidden="true" ></i>
+        <% end %>
+      <% end %>
+  
     <% else %>
-      <span id="favorite_form">
-        <% if micropost.favorited_by? current_user %>
-          <%= render 'users/unfavorite_link',micropost:micropost%>
+      <span class="link_underline">
+        <% if current_user.favorites.find_by(micropost_id: micropost.id) %>
+          <%= link_to micropost_favorites_path(micropost), method: :delete do %>
+          <i class="glyphicon glyphicon-heart unlink_color" aria-hidden="true" ></i>
+          <% end %>
         <% else %>
-          <%= render 'users/favorite_link',micropost:micropost %>
+          <%= link_to micropost_favorites_path(micropost), method: :post do %>
+            <i class="glyphicon glyphicon-heart link_color" aria-hidden="true" ></i>
+          <% end %>
         <% end %>
       </span>
+      
+      <% if micropost.retweeted_by? current_user %>  
+      <% else %>
+        <%= link_to micropost_retweets_path(micropost), method: :post do %>
+          <i class="glyphicon glyphicon-retweet link_color" , aria-hidden="true" ></i>
+        <% end %>
+      <% end %>  
     <% end %>
   </span>
   
-　<%= image_tag micropost.thumb.url if micropost.image? %>
+　<%= image_tag micropost.avatar.url if micropost.avatar? %>
 
 </li>

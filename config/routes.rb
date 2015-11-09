@@ -8,12 +8,13 @@ Rails.application.routes.draw do
   
   resources :users do
     member do
-      get :followings, :followers, :favorites
+      get :followings, :followers, :favorites, :retweets
     end
   end
   
   resources :microposts do
     resource :favorites, only: [:create, :destroy]
+    resource :retweets, only: [:create, :destroy]
   end
   
   resources :sessions, only: [:new, :create, :destroy]

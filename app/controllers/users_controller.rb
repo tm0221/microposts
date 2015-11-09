@@ -26,11 +26,9 @@ class UsersController < ApplicationController
     end
   end
 
-
   def show 
-    @microposts = @user.microposts.page(params[:page])
+    @microposts = @user.microposts.page(params[:page]) 
   end
-
 
   def followings
     @title = "Followings"
@@ -59,6 +57,4 @@ class UsersController < ApplicationController
   def set_user
     @user = User.find(params[:id])
   end
-  
-
 end

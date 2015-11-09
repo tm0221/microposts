@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.4'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', group: :development
-#追加： 本番ではpostgressを使用する
+#追加 本番ではpostgressを使用する
 gem 'pg', group: :production
 
 # Use SCSS for stylesheets
@@ -34,9 +34,12 @@ gem 'bootstrap-sass'
 gem 'kaminari' 
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
+
 #追加 for carrierwace
 gem 'carrierwave'
+gem 'cloudinary'
 gem 'mini_magick', '3.8.0'
+gem 'fog', '1.26.0'
 #
 
 

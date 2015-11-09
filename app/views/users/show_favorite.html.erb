@@ -18,8 +18,10 @@
   <div class="col-md-8">
     <h3>Favorite posts</h3>
     <% if @favorites.any? %>
-        <%= render @favorites %><br/>
-        <%= paginate @favorites %>
+      <% @favorites.order('id desc').each do |favorite| %>
+        <%= render partial: 'favorites/favorite', locals: {favorite: favorite} %>
+      <% end %>
     <% end %>
+    <%= paginate @favorites %>
   </div>
 </div>

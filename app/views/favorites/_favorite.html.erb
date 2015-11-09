@@ -6,14 +6,31 @@
   <span class="timestamp">
     Posted <%= time_ago_in_words(favorite.micropost.created_at) %> ago.
   
-    <span id="favorite_form">
-      <% if favorite.micropost.favorited_by? current_user %>
-        <%= render 'users/unfavorite_link',micropost:favorite.micropost %>
+    <span class="link_underline">
+      <% if current_user.favorites.find_by(micropost_id: favorite.micropost.id) %>
+        <%= link_to micropost_favorites_path(favorite.micropost), method: :delete do %>
+          <i class="glyphicon glyphicon-heart unlink_color" aria-hidden="true" ></i>
+        <% end %>
       <% else %>
-        <%= render 'users/favorite_link',micropost:favorite.micropost %>  
+        <%= link_to micropost_favorites_path(favorite.micropost), method: :post do %>
+          <i class="glyphicon glyphicon-heart link_color" aria-hidden="true" ></i>
+        <% end %>
       <% end %>
     </span>
+    
+    <% if current_user.retweets.find_by(before_id: favorite.micropost.id) %>
+      <% deleteretweet = current_user.retweets.find_by(before_id: favorite.micropost.id) %>
+      <%= link_to micropost_retweets_path(deleteretweet.micropost_id), method: :delete do%>
+        <i class="glyphicon glyphicon-retweet unlink_color" , aria-hidden="true" ></i>
+      <% end %> 
+    <% else %>
+      <%= link_to micropost_retweets_path(favorite.micropost.id), method: :post do %>
+        <i class="glyphicon glyphicon-retweet link_color" , aria-hidden="true" ></i>
+      <% end %>
+    <% end %>  
   </span>
+  
+　<%= image_tag favorite.micropost.avatar.url if favorite.micropost.avatar? %>
   </li>
 </div>  
  

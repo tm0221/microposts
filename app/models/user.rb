@@ -12,13 +12,12 @@ class User < ActiveRecord::Base
   
   has_secure_password
   has_many :microposts
-  has_many :favorites,dependent: :destroy
-
+  has_many :favorites, dependent: :destroy
+  has_many :retweets, dependent: :destroy
 
   def feed_items
     Micropost.where(user_id: following_user_ids + [self.id])
   end
-    
 
 # follow
   has_many :following_relationships, class_name:  "Relationship",
@@ -43,5 +42,4 @@ class User < ActiveRecord::Base
   def following?(other_user)
     following_users.include?(other_user)
   end
-  
 end
