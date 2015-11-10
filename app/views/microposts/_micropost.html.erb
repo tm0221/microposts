@@ -4,33 +4,33 @@
   <span class="content"><%= micropost.content %></span> 
   <span class="timestamp">
     Posted <%= time_ago_in_words(micropost.created_at) %> ago.
-    
-    
+  
     <% if Retweet.find_by(micropost_id: micropost.id) %> 
-      <% beforepost = Retweet.find_by(micropost_id: micropost.id) %>
-      <% micropsotbefore = Micropost.find_by(id: beforepost.before_id) %>
-      <%= link_to micropsotbefore.user.name,micropsotbefore.user %>
+      <% checkmicropost = Retweet.find_by(micropost_id: micropost.id) %>
+      <% if Micropost.find_by(id: checkmicropost.before_id) %>
+        <% beforepost = Retweet.find_by(micropost_id: micropost.id) %>
+        <% micropsotbefore = Micropost.find_by(id: beforepost.before_id) %>
+        <%= link_to micropsotbefore.user.name,micropsotbefore.user %>
+      <% else %>
+        deleted post.
+      <% end %>
     <% end %>
       
     <% if current_user == micropost.user %>
       <% if current_user.retweets.find_by(micropost_id: micropost.id) %>
-
         <%= link_to micropost_retweets_path(micropost), method: :delete do%>
           <i class="glyphicon glyphicon-retweet unlink_color" , aria-hidden="true" ></i>
         <% end %>
-        
       <% else %>
-       <%= link_to micropost, method: :delete,
-                                     data: { confirm: "You sure?" } do %>
+        <%= link_to micropost, method: :delete, data: { confirm: "You sure?" } do %>
           <i class="glyphicon glyphicon-trash link_color" , aria-hidden="true" ></i>
         <% end %>
       <% end %>
-  
     <% else %>
       <span class="link_underline">
         <% if current_user.favorites.find_by(micropost_id: micropost.id) %>
           <%= link_to micropost_favorites_path(micropost), method: :delete do %>
-          <i class="glyphicon glyphicon-heart unlink_color" aria-hidden="true" ></i>
+            <i class="glyphicon glyphicon-heart unlink_color" aria-hidden="true" ></i>
           <% end %>
         <% else %>
           <%= link_to micropost_favorites_path(micropost), method: :post do %>
@@ -38,13 +38,11 @@
           <% end %>
         <% end %>
       </span>
-      
       <% if current_user.retweets.find_by(before_id: micropost.id) %>
         <% retweetsdelete = Retweet.find_by(before_id: micropost.id) %>
         <%= link_to micropost_retweets_path(retweetsdelete.micropost_id), method: :delete do%>
           <i class="glyphicon glyphicon-retweet unlink_color" , aria-hidden="true" ></i>
-         <% end %>
-      
+        <% end %>
       <% else %>
         <%= link_to micropost_retweets_path(micropost), method: :post do %>
           <i class="glyphicon glyphicon-retweet link_color" , aria-hidden="true" ></i>

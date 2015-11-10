@@ -17,7 +17,6 @@ class MicropostsController < ApplicationController
     return redirect_to root_url if @micropost.nil?
     @micropost.destroy
     if Retweet.find_by(before_id: params[:id])
-      
       @retweet = Retweet.find_by(before_id: params[:id])
       @micropostdelete = Micropost.find_by(id: @retweet.micropost_id)  
       @micropostdelete.destroy
