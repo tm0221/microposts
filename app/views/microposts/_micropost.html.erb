@@ -28,15 +28,16 @@
       <% end %>
     <% else %>
       <span class="link_underline">
-        <% if current_user.favorites.find_by(micropost_id: micropost.id) %>
-          <%= link_to micropost_favorites_path(micropost), method: :delete do %>
-            <i class="glyphicon glyphicon-heart unlink_color" aria-hidden="true" ></i>
-          <% end %>
-        <% else %>
-          <%= link_to micropost_favorites_path(micropost), method: :post do %>
-            <i class="glyphicon glyphicon-heart link_color" aria-hidden="true" ></i>
-          <% end %>
-        <% end %>
+        <%= render 'users/favorite_form', micropost: micropost %>
+        <%# if current_user.favorites.find_by(micropost_id: micropost.id) %>
+          <%#= link_to micropost_favorites_path(micropost), method: :delete do %>
+            <%# i class="glyphicon glyphicon-heart unlink_color" aria-hidden="true" ></i>
+          <#% end %>
+        <%# else %>
+          <%#= link_to micropost_favorites_path(micropost), method: :post do %>
+            <%#i class="glyphicon glyphicon-heart link_color" aria-hidden="true" ></i>
+          <# end %>
+        <%# end %>
       </span>
       <% if current_user.retweets.find_by(before_id: micropost.id) %>
         <% retweetsdelete = Retweet.find_by(before_id: micropost.id) %>

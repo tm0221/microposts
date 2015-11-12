@@ -8,12 +8,9 @@
   
     <span class="link_underline">
       <% if current_user.favorites.find_by(micropost_id: favorite.micropost.id) %>
+        <%= session[:before_page] = 'favorite' %>
         <%= link_to micropost_favorites_path(favorite.micropost), method: :delete do %>
           <i class="glyphicon glyphicon-heart unlink_color" aria-hidden="true" ></i>
-        <% end %>
-      <% else %>
-        <%= link_to micropost_favorites_path(favorite.micropost), method: :post do %>
-          <i class="glyphicon glyphicon-heart link_color" aria-hidden="true" ></i>
         <% end %>
       <% end %>
     </span>
@@ -33,8 +30,7 @@
   <% unless favorite.micropost.avatar.blank? %>
     <span class="image"><%= image_tag favorite.micropost.avatar_url %></span>
   <% end %>
-　<%#= image_tag favorite.micropost.avatar.url if favorite.micropost.avatar? %>
-  
+
   </li>
 </div>  
  

@@ -6,16 +6,19 @@ class FavoritesController < ApplicationController
     @favorite = current_user.favorites.build(micropost: @micropost,micropost_id: @micropost.id)
     
     if @favorite.save
-      redirect_to :back 
     else
       redirect_to :back, alert: "error"
     end
   end
   
   def destroy
+    @micropost = Micropost.find(params[:micropost_id])
     @favorite = current_user.favorites.find_by(micropost_id: params[:micropost_id])
     @favorite.destroy
-    redirect_to :back 
+    if session[:before_page] == 'favorite'
+      session[:before_page] = nil;
+      redirect_to :back 
+    end
   end
 end
 
